@@ -1,31 +1,31 @@
+
 class Solution {
-    public void sort012(int[] arr) {
-        int zero = 0, one = 0, two = 0;
+
+    public void segregateElements(int[] arr) {
+        int n = arr.length, index = 0;
+        int ans[] = new int[n];
         for (int i : arr) {
-            switch (i) {
-                case 0 -> zero++;
-                case 1 -> one++;
-                case 2 -> two++;
+            if (i >= 0) {
+                ans[index++] = i;
             }
         }
-        int index = 0;
-        while (zero-- != 0) {
-            arr[index++] = 0;
+        for (int i : arr) {
+            if (i < 0) {
+                ans[index++] = i;
+            }
         }
-        while (one-- != 0) {
-            arr[index++] = 1;
-        }
-        while (two-- != 0) {
-            arr[index++] = 2;
+        for (int i = 0; i < n; i++) {
+            arr[i] = ans[i];
         }
     }
 }
 
 public class Four {
+
     public static void main(String[] args) {
+        int arr[] = {1, -1, 3, 2, -7, -5, 11, 6};
         Solution sol = new Solution();
-        int arr[] = { 0, 1, 1, 0, 1, 2, 1, 2, 0, 0, 0, 1 };
-        sol.sort012(arr);
+        sol.segregateElements(arr);
         for (int i : arr) {
             System.out.print(i + " ");
         }

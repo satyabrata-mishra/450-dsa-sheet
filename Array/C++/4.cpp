@@ -4,45 +4,32 @@ using namespace std;
 class Solution
 {
 public:
-    void sort012(vector<int> &arr)
+    void segregateElements(vector<int> &arr)
     {
-        int zero = 0, one = 0, two = 0, n = arr.size();
+        vector<int> ans;
         for (int i : arr)
         {
-            if (i == 0)
+            if (i >= 0)
             {
-                ++zero;
-            }
-            else if (i == 1)
-            {
-                ++one;
-            }
-            else
-            {
-                ++two;
+                ans.push_back(i);
             }
         }
-        int index = 0;
-        while (zero--)
+        for (int i : arr)
         {
-            arr[index++] = 0;
+            if (i < 0)
+            {
+                ans.push_back(i);
+            }
         }
-        while (one--)
-        {
-            arr[index++] = 1;
-        }
-        while (two--)
-        {
-            arr[index++] = 2;
-        }
+        arr = ans;
     }
 };
 int main()
 {
     Solution sol;
-    vector<int> arr = {0, 1, 1, 0, 1, 2, 1, 2, 0, 0, 0, 1};
-    sol.sort012(arr);
-    for (int i : arr)
+    vector<int> list = {1, -1, 3, 2, -7, -5, 11, 6};
+    sol.segregateElements(list);
+    for (int i : list)
     {
         cout << i << " ";
     }

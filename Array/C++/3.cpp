@@ -3,33 +3,48 @@
 using namespace std;
 class Solution
 {
-private:
-    void bubbleSort(vector<int> &arr)
+public:
+    void sort012(vector<int> &arr)
     {
-        int n = arr.size();
-        for (int i = 0; i < n; i++)
+        int zero = 0, one = 0, two = 0, n = arr.size();
+        for (int i : arr)
         {
-            for (int j = 0; j < n - i - 1; j++)
+            if (i == 0)
             {
-                if (arr[j] > arr[j + 1])
-                {
-                    swap(arr[j], arr[j + 1]);
-                }
+                ++zero;
+            }
+            else if (i == 1)
+            {
+                ++one;
+            }
+            else
+            {
+                ++two;
             }
         }
-    }
-
-public:
-    int kthSmallest(vector<int> &arr, int k)
-    {
-        bubbleSort(arr);
-        return arr[k - 1];
+        int index = 0;
+        while (zero--)
+        {
+            arr[index++] = 0;
+        }
+        while (one--)
+        {
+            arr[index++] = 1;
+        }
+        while (two--)
+        {
+            arr[index++] = 2;
+        }
     }
 };
 int main()
 {
     Solution sol;
-    vector<int> arr = {7, 10, 4, 3, 20, 15};
-    cout << sol.kthSmallest(arr, 3);
+    vector<int> arr = {0, 1, 1, 0, 1, 2, 1, 2, 0, 0, 0, 1};
+    sol.sort012(arr);
+    for (int i : arr)
+    {
+        cout << i << " ";
+    }
     return 0;
 }
