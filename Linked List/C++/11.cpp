@@ -1,60 +1,91 @@
 #include <iostream>
-#include <vector>
 using namespace std;
-struct ListNode
+
+// Definition for singly-linked list
+struct Node
 {
-    int val;
-    ListNode *next;
-    ListNode(int x) : val(x), next(nullptr) {}
+public:
+    int data;
+    Node *next;
+
+    Node(int d)
+    {
+        data = d;
+        next = nullptr;
+    }
 };
+
 class Solution
 {
 private:
-    int length(ListNode *head)
+    int getLength(Node *head)
     {
-        ListNode *curr = head;
-        int ans = 0;
-        while (curr != nullptr)
+        int len = 0;
+        while (head != nullptr)
         {
-            curr = curr->next;
-            ++ans;
+            ++len;
+            head = head->next;
         }
-        return ans;
+        return len;
     }
 
 public:
-    ListNode *middleNode(ListNode *head)
+    Node *intersectPoint(Node *head1, Node *head2)
     {
-        int len = length(head);
-        ListNode *curr = head;
-        for (int i = 0; i < len / 2; i++)
+        int len1 = getLength(head1);
+        int len2 = getLength(head2);
+
+        // Align both pointers to the same start point
+        while (len1 > len2)
         {
-            curr = curr->next;
+            head1 = head1->next;
+            len1--;
         }
-        return curr;
+
+        while (len2 > len1)
+        {
+            head2 = head2->next;
+            len2--;
+        }
+
+        // Traverse both lists and find intersection
+        while (head1 != nullptr && head2 != nullptr)
+        {
+            if (head1 == head2)
+                return head1;
+            head1 = head1->next;
+            head2 = head2->next;
+        }
+
+        return nullptr;
     }
 };
-void printList(ListNode *head)
-{
-    while (head != nullptr)
-    {
-        cout << head->val << " ";
-        head = head->next;
-    }
-    cout << endl;
-};
+
 int main()
 {
-    ListNode *node = new ListNode(0);
-    node->next = new ListNode(1);
-    node->next->next = new ListNode(2);
-    node->next->next->next = new ListNode(1);
-    node->next->next->next->next = new ListNode(0);
-    node->next->next->next->next->next = new ListNode(2);
-    node->next->next->next->next->next->next = new ListNode(2);
-    printList(node);
+    // Shared part of the list
+    Node *intersection = new Node(8);
+    intersection->next = new Node(4);
+    intersection->next->next = new Node(5);
+
+    // First list: 4 -> 1 -> [8 -> 4 -> 5]
+    Node *head1 = new Node(4);
+    head1->next = new Node(1);
+    head1->next->next = intersection;
+
+    // Second list: 5 -> 6 -> 1 -> [8 -> 4 -> 5]
+    Node *head2 = new Node(5);
+    head2->next = new Node(6);
+    head2->next->next = new Node(1);
+    head2->next->next->next = intersection;
+
     Solution sol;
-    node = sol.middleNode(node);
-    printList(node);
+    Node *result = sol.intersectPoint(head1, head2);
+
+    if (result != nullptr)
+        cout << "Intersection at node with data: " << result->data << endl;
+    else
+        cout << "No intersection found." << endl;
+
     return 0;
 }

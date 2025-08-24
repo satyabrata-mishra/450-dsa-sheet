@@ -10,7 +10,6 @@ class ListNode {
 }
 
 class Solution {
-
     private int length(ListNode head) {
         int ans = 0;
         ListNode curr = head;
