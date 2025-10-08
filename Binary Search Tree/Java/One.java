@@ -1,28 +1,51 @@
+public class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
 
-class Node {
+    TreeNode() {
+    }
 
-    int data;
-    Node left, right;
+    TreeNode(int val) {
+        this.val = val;
+    }
 
-    Node(int item) {
-        data = item;
-        left = right = null;
+    TreeNode(int val, TreeNode left, TreeNode right) {
+        this.val = val;
+        this.left = left;
+        this.right = right;
     }
 }
 
-class BST {
+class Solution {
+    public TreeNode deleteNode(TreeNode root, int key) {
+        if (root == null)
+            return null;
+        if (root.val == key) {
+            if (root.left == null && root.right == null) {
+                return null;
+            } else if (root.left == null) {
+                return root.right;
+            } else if (root.right == null) {
+                return root.left;
+            } else {
+                TreeNode inorderSuccessor = inorderSuccessor(root.right);
+                root.val = inorderSuccessor.val;
+                root.right = deleteNode(root.right, inorderSuccessor.val);
+            }
+        } else if (root.val < key) {
+            root.right = deleteNode(root.right, key);
+        } else {
+            root.left = deleteNode(root.left, key);
+        }
+        return root;
+    }
 
-    boolean search(Node root, int x) {
-        if (root == null) {
-            return false;
+    private TreeNode inorderSuccessor(TreeNode root) {
+        while (root.left != null) {
+            root = root.left;
         }
-        if (root.data == x) {
-            return true;
-        }
-        if (root.data > x) {
-            return search(root.left, x);
-        }
-        return search(root.right, x);
+        return root;
     }
 }
 
