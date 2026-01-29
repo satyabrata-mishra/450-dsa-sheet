@@ -1,10 +1,10 @@
-#include <vector>
 #include <iostream>
+#include <vector>
 using namespace std;
 class Solution
 {
 private:
-    void mergeSortHelper(vector<int> &arr, int left, int mid, int right, int &ans)
+    void mergerSort2d(vector<int> &arr, int left, int mid, int right, int &ans)
     {
         int n1 = mid - left + 1, n2 = right - mid;
         vector<int> arr1(n1), arr2(n2);
@@ -12,9 +12,9 @@ private:
         {
             arr1[i] = arr[left + i];
         }
-        for (int i = 0; i < n2; i++)
+        for (int j = 0; j < n2; j++)
         {
-            arr2[i] = arr[mid + i + 1];
+            arr2[j] = arr[mid + j + 1];
         }
         int i = 0, j = 0, k = left;
         while (i < n1 && j < n2)
@@ -47,13 +47,14 @@ private:
         int mid = left + (right - left) / 2;
         mergeSort(arr, left, mid, ans);
         mergeSort(arr, mid + 1, right, ans);
-        mergeSortHelper(arr, left, mid, right, ans);
+        mergerSort2d(arr, left, mid, right, ans);
     }
 
 public:
+    //  i < j and arr[i] > arr[j]
     int inversionCount(vector<int> arr)
     {
-        int n = arr.size(), ans = 0;
+        int ans = 0, n = arr.size();
         mergeSort(arr, 0, n - 1, ans);
         return ans;
     }
